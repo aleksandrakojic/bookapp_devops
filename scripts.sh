@@ -5,9 +5,7 @@ sudo apt update -y
 
 # Installing Docker 
 #!/bin/bash
-sudo apt update
 sudo apt install docker.io -y
-sudo usermod -aG docker jenkins
 sudo usermod -aG docker ubuntu
 sudo systemctl restart docker
 sudo chmod 777 /var/run/docker.sock
@@ -30,7 +28,7 @@ aws --version
 #!/bin/bash
 sudo apt update
 sudo apt install curl -y
-sudo curl -LO "https://dl.k8s.io/release/v1.28.4/bin/linux/amd64/kubectl"
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 kubectl version --client
@@ -70,8 +68,8 @@ kubectl get nodes
 
 # Install istioctl
 #! /bin/bash
-curl -L <https://istio.io/downloadIstio> | sh -	
-cd istio-1.18.2/
+curl -L https://istio.io/downloadIstio | sh -
+cd istio-*/
 export PATH=$PWD/bin:$PATH
 istioctl install --set profile=demo -y
 
@@ -79,19 +77,18 @@ istioctl install --set profile=demo -y
 # Installing ArgoCD
 #!/bin/bash
 
-curl -sSL -o argocd-linux-amd64 <https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64>	
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64	
 sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 rm argocd-linux-amd64
-sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 
 # Create ArgoCD namespace
 #!/bin/bash
 kubectl create namespace argocd	
-kubectl apply -n argocd -f <https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml>
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 
 echo "Waiting ArgoCD for init password..."
-argocd admin initial-password -n argocd
+argocd admin initial-password -n argocd #JSxrNnyn-202NyFP
 
 
 
