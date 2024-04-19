@@ -91,7 +91,7 @@ data:
       view_only_mode: false
     external_services:
       grafana:
-        url: grafana-workshop.devops-project.blog
+        url: grafana
       custom_dashboards:
         enabled: true
       istio:
