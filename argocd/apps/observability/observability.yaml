@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: git@github.com:aleksandrakojic/bookapp_devops.git
-    targetRevision: <specific_revision_or_tag>
+    # targetRevision: <specific_revision_or_tag>
     path: manifests/observability
   destination:
     server: https://kubernetes.default.svc
