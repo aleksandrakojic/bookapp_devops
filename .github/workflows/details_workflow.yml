@@ -36,8 +36,8 @@ jobs:
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
           IMAGE_TAG: details-${{ steps.get-sha.outputs.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./bookinfo_app/src/details/
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG ./bookinfo_app/src/details/
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
 
       - name: Update Kubernetes Deployment Image
         env:
@@ -48,11 +48,11 @@ jobs:
           DEPLOYMENT_FILE="manifests/kubernetes/details/deployment_details.yaml"
           
           # Check if the deployment file needs update
-          if grep -q "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" "$DEPLOYMENT_FILE"; then
+          if grep -q "${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG" "$DEPLOYMENT_FILE"; then
             echo "Image already up to date in $DEPLOYMENT_FILE"
           else
             # Update the image in the deployment file
-            sed -i "s|image: 152175719540.dkr.ecr.eu-west-1.amazonaws.com/book-ecr-repo:.*|image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|" "$DEPLOYMENT_FILE"
+            sed -i "s|image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:.*|image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG|" "$DEPLOYMENT_FILE"
             
             # Show the updated deployment file
             cat "$DEPLOYMENT_FILE"
@@ -61,6 +61,6 @@ jobs:
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add "$DEPLOYMENT_FILE"
-            git commit -m "Update deployment image to $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+            git commit -m "Update deployment image to ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG"
             git push
           fi
