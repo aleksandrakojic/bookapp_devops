@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: mysqldb
-        image: docker.io/istio/examples-bookinfo-mysqldb:1.18.0
+        image: 152175719540.dkr.ecr.eu-west-1.amazonaws.com/book-ecr-repo:mysql-971288b
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3306
