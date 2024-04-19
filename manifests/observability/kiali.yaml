@@ -90,8 +90,6 @@ data:
       version_label: v1.67.0
       view_only_mode: false
     external_services:
-      grafana:
-        url: grafana
       custom_dashboards:
         enabled: true
       istio:
@@ -409,7 +407,7 @@ metadata:
     app.kubernetes.io/version: "v1.67.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: "kiali"
-  annotations: {}
+  annotations:
 spec:
   ports:
   - name: http
@@ -530,7 +528,6 @@ spec:
           mountPath: "/kiali-cabundle"
         resources:
           limits:
-            cpu: 1000m
             memory: 1Gi
           requests:
             cpu: 10m

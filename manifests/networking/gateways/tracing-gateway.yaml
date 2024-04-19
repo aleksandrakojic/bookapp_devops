@@ -8,7 +8,7 @@ spec:
     istio: ingressgateway
   servers:
   - port:
-      number: 80
+      number: 8084
       name: http-tracing
       protocol: HTTP
     hosts:
