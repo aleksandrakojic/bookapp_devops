@@ -47,7 +47,7 @@ spec:
     spec:
       containers:
       - name: mongodb 
-        image: 152175719540.dkr.ecr.eu-west-1.amazonaws.com/book-ecr-repo:mongodb-4296130
+        image: 152175719540.dkr.ecr.eu-west-1.amazonaws.com/book-ecr-repo:mongodb-aa999ad
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 27017
